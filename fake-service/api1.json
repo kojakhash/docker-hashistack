@@ -1,0 +1,22 @@
+{
+  "node_name": "api1",
+  "datacenter": "dc1",
+  "data_dir": "/var/consul/data",
+  "log_level":"INFO",
+  "retry_join":[
+      "consul-server1",
+      "consul-server2",
+      "consul-server3"
+  ],
+  "encrypt": "aPuGh+5UDskRAbkLaXRzFoSOcSM+5vAK+NEYOWHJH7w=",
+  "service": {
+    "name": "api",
+    "port": 9091,
+    "check": {
+      "id": "api-check",
+      "tcp": "localhost:9091",
+      "interval": "10s",
+      "timeout": "1s"
+    }
+  }
+}

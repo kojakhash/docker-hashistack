@@ -1,0 +1,42 @@
+{
+    "node_name": "consul-server1",
+    "connect": {
+      "enabled": true
+    },
+    "addresses": {
+      "http": "0.0.0.0",
+      "grpc": "127.0.0.1"
+    },
+    "encrypt": "aPuGh+5UDskRAbkLaXRzFoSOcSM+5vAK+NEYOWHJH7w=",
+    "ports": {
+      "grpc": 8502
+    },
+    "license_path": "/consul/config/license.hclic",
+    "server": true,
+    "bootstrap" : true,
+    "ui_config": {
+        "enabled" : true
+    },
+    "retry_join": [
+      "consul-server2",
+      "consul-server3"
+    ],
+    "datacenter": "dc1",
+    "data_dir": "/consul/data",
+    "log_level":"INFO",
+    "service": {
+        "id": "dns",
+        "name": "dns",
+        "tags": ["primary"],
+        "address": "localhost",
+        "port": 8600,
+        "enable_tag_override": false,
+        "check": {
+          "id": "dns",
+          "name": "Consul DNS TCP on port 8600",
+          "tcp": "localhost:8600",
+          "interval": "10s",
+          "timeout": "1s"
+        }
+      }
+}
