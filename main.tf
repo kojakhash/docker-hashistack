@@ -30,7 +30,7 @@ resource "docker_image" "fake-service" {
 }
 
 resource "docker_container" "consul-server1" {
-  image = docker_image.consul.latest
+  image = docker_image.consul.image_id
   name  = "consul-server1"
   hostname = "consul-server1"
   env = [
@@ -50,6 +50,12 @@ resource "docker_container" "consul-server1" {
   ports {
     internal = 8600
     external = 8600
+    protocol = "tcp"
+  }
+  ports {
+    internal = 8600
+    external = 8600
+    protocol = "udp"
   }
   volumes {
     host_path = "${var.pwd}/consul/server.json"
@@ -66,11 +72,11 @@ resource "docker_container" "consul-server1" {
   networks_advanced {
     name = "${docker_network.private_network.name}"
   }
-  command = ["agent"]
+  command = ["agent","-bootstrap-expect=3"]
 }
 
 resource "docker_container" "consul-server2" {
-  image = docker_image.consul.latest
+  image = docker_image.consul.image_id
   name  = "consul-server2"
   hostname = "consul-server2"
   env = [
@@ -98,11 +104,11 @@ resource "docker_container" "consul-server2" {
   networks_advanced {
     name = "${docker_network.private_network.name}"
   }
-  command = ["agent"]
+  command = ["agent","-bootstrap-expect=3"]
 }
 
 resource "docker_container" "consul-server3" {
-  image = docker_image.consul.latest
+  image = docker_image.consul.image_id
   name  = "consul-server3"
   hostname = "consul-server3"
   env = [
@@ -130,11 +136,11 @@ resource "docker_container" "consul-server3" {
   networks_advanced {
     name = "${docker_network.private_network.name}"
   }
-  command = ["agent"]
+  command = ["agent","-bootstrap-expect=3"]
 }
 
 resource "docker_container" "consul-client" {
-  image = docker_image.consul.latest
+  image = docker_image.consul.image_id
   name  = "consul-client"
   hostname = "consul-client"
   env = [
@@ -166,7 +172,7 @@ resource "docker_container" "consul-client" {
 }
 
 resource "docker_container" "vault-server" {
-  image = docker_image.vault.latest
+  image = docker_image.vault.image_id
   name  = "vault-server"
   hostname = "vault-server"
   env = [
@@ -191,7 +197,7 @@ resource "docker_container" "vault-server" {
 }
 
 resource "docker_container" "api" {
-  image = docker_image.fake-service.latest
+  image = docker_image.fake-service.image_id
   name  = "api"
   ports {
     internal = 9091
@@ -208,7 +214,7 @@ resource "docker_container" "api" {
 }
 
 resource "docker_container" "web" {
-  image = docker_image.fake-service.latest
+  image = docker_image.fake-service.image_id
   name  = "web"
   ports {
     internal = 9090
@@ -225,7 +231,7 @@ resource "docker_container" "web" {
 }
 
 resource "docker_container" "web2" {
-  image = docker_image.fake-service.latest
+  image = docker_image.fake-service.image_id
   name  = "web2"
   ports {
     internal = 9090
