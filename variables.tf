@@ -1,3 +1,3 @@
 variable pwd {
-  default = "/Users/kojak/Workspace/learn-consul-docker/datacenter-deploy-hashistack"
+  default = "/Users/kojak/Workspace/datacenter-deploy-hashistack"
 }

@@ -194,6 +194,10 @@ resource "docker_container" "vault-server" {
     host_path = "${var.pwd}/vault/vault.json"
     container_path = "/consul/config/vault.json"
   }
+  volumes {
+    host_path = "${var.pwd}/consul/certs/"
+    container_path = "/consul/config/certs/"
+  }
 }
 
 resource "docker_container" "api" {
@@ -210,6 +214,10 @@ resource "docker_container" "api" {
   volumes {
     host_path = "${var.pwd}/fake-service/api1.json"
     container_path = "/var/consul/config/api1.json"
+  }
+  volumes {
+    host_path = "${var.pwd}/consul/certs/"
+    container_path = "/consul/config/certs/"
   }
 }
 
@@ -228,6 +236,10 @@ resource "docker_container" "web" {
     host_path = "${var.pwd}/fake-service/web1.json"
     container_path = "/var/consul/config/web1.json"
   }
+  volumes {
+    host_path = "${var.pwd}/consul/certs/"
+    container_path = "/consul/config/certs/"
+  }
 }
 
 resource "docker_container" "web2" {
@@ -244,5 +256,9 @@ resource "docker_container" "web2" {
   volumes {
     host_path = "${var.pwd}/fake-service/web2.json"
     container_path = "/var/consul/config/web2.json"
+  }
+  volumes {
+    host_path = "${var.pwd}/consul/certs/"
+    container_path = "/consul/config/certs/"
   }
 }

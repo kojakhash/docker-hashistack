@@ -1,6 +1,5 @@
 {
   "node_name": "api1",
-  "datacenter": "dc1",
   "data_dir": "/var/consul/data",
   "log_level":"INFO",
   "retry_join":[
@@ -8,6 +7,12 @@
       "consul-server2",
       "consul-server3"
   ],
+  "ports": {
+    "grpc": 8502
+  },
+  "ca_file": "/consul/config/certs/consul-agent-ca.pem",
+  "cert_file": "/consul/config/certs/dc1-server-consul-0.pem",
+  "key_file": "/consul/config/certs/dc1-server-consul-0-key.pem",
   "encrypt": "aPuGh+5UDskRAbkLaXRzFoSOcSM+5vAK+NEYOWHJH7w=",
   "service": {
     "name": "api",
