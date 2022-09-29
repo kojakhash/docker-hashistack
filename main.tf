@@ -69,6 +69,10 @@ resource "docker_container" "consul-server1" {
     host_path = "${var.pwd}/consul/certs/"
     container_path = "/consul/config/certs/"
   }
+  volumes {
+    host_path = "${var.pwd}/consul/consul-acl.json"
+    container_path = "/consul/config/consul-acl.json"
+  }
   networks_advanced {
     name = "${docker_network.private_network.name}"
   }
@@ -100,6 +104,10 @@ resource "docker_container" "consul-server2" {
   volumes {
     host_path = "${var.pwd}/consul/certs/"
     container_path = "/consul/config/certs/"
+  }
+  volumes {
+    host_path = "${var.pwd}/consul/consul-acl.json"
+    container_path = "/consul/config/consul-acl.json"
   }
   networks_advanced {
     name = "${docker_network.private_network.name}"
@@ -133,6 +141,10 @@ resource "docker_container" "consul-server3" {
     host_path = "${var.pwd}/consul/certs/"
     container_path = "/consul/config/certs/"
   }
+  volumes {
+    host_path = "${var.pwd}/consul/consul-acl.json"
+    container_path = "/consul/config/consul-acl.json"
+  }
   networks_advanced {
     name = "${docker_network.private_network.name}"
   }
@@ -164,6 +176,10 @@ resource "docker_container" "consul-client" {
   volumes {
     host_path = "${var.pwd}/consul/certs/"
     container_path = "/consul/config/certs/"
+  }
+  volumes {
+    host_path = "${var.pwd}/consul/consul-acl.json"
+    container_path = "/consul/config/consul-acl.json"
   }
   networks_advanced {
     name = "${docker_network.private_network.name}"
@@ -198,6 +214,10 @@ resource "docker_container" "vault-server" {
     host_path = "${var.pwd}/consul/certs/"
     container_path = "/consul/config/certs/"
   }
+  volumes {
+    host_path = "${var.pwd}/consul/consul-acl.json"
+    container_path = "/consul/config/consul-acl.json"
+  }
 }
 
 resource "docker_container" "api" {
@@ -207,7 +227,16 @@ resource "docker_container" "api" {
     internal = 9091
     external = 9091
   }
-  env = ["LISTEN_ADDR=0.0.0.0:9091", "MESSAGE=API Response", "NAME=api", "SERVER_TYPE=grpc"]
+  env = [
+    "LISTEN_ADDR=0.0.0.0:9091",
+    "MESSAGE=API Response",
+    "NAME=api",
+    "SERVER_TYPE=grpc",
+    "VAULT_ADDR=http://vault-server:8200",
+    "VAULT_TOKEN=vault-plaintext-root-token",
+    "CONSUL_HTTP_ADDR=consul-server1:8500",
+    "CONSUL_HTTP_TOKEN=e95b599e-166e-7d80-08ad-aee76e7ddf19"
+    ]
   networks_advanced {
     name = "${docker_network.private_network.name}"
   }
@@ -218,6 +247,10 @@ resource "docker_container" "api" {
   volumes {
     host_path = "${var.pwd}/consul/certs/"
     container_path = "/consul/config/certs/"
+  }
+  volumes {
+    host_path = "${var.pwd}/consul/consul-acl.json"
+    container_path = "/consul/config/consul-acl.json"
   }
 }
 
@@ -240,6 +273,10 @@ resource "docker_container" "web" {
     host_path = "${var.pwd}/consul/certs/"
     container_path = "/consul/config/certs/"
   }
+  volumes {
+    host_path = "${var.pwd}/consul/consul-acl.json"
+    container_path = "/consul/config/consul-acl.json"
+  }
 }
 
 resource "docker_container" "web2" {
@@ -260,5 +297,9 @@ resource "docker_container" "web2" {
   volumes {
     host_path = "${var.pwd}/consul/certs/"
     container_path = "/consul/config/certs/"
+  }
+  volumes {
+    host_path = "${var.pwd}/consul/consul-acl.json"
+    container_path = "/consul/config/consul-acl.json"
   }
 }
