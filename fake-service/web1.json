@@ -27,6 +27,7 @@
   "service": {
     "name": "web",
     "port": 9090,
+    "token": "8af75426-e342-f8af-56c9-fab2104919d5",
     "check": {
       "id": "web-check",
       "http": "http://localhost:9090/health",

@@ -27,6 +27,7 @@
   "service": {
     "id": "api",
     "name": "api",
+    "token": "<put your token here>",
     "port": 9091,
     "address": "localhost",
     "check": {

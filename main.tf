@@ -193,7 +193,8 @@ resource "docker_container" "vault-server" {
   hostname = "vault-server"
   env = [
     "VAULT_ADDR=http://0.0.0.0:8200",
-    "VAULT_DEV_ROOT_TOKEN_ID=vault-plaintext-root-token"
+    "VAULT_DEV_ROOT_TOKEN_ID=vault-plaintext-root-token",
+    "VAULT_TOKEN=vault-plaintext-root-token"
   ]
   capabilities {
     add = ["IPC_LOCK"]
