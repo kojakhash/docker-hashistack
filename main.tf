@@ -191,6 +191,7 @@ resource "docker_container" "vault-server" {
   image = docker_image.vault.image_id
   name  = "vault-server"
   hostname = "vault-server"
+  entrypoint = ["vault", "server", "-config=/vault/config/local.hcl"]
   env = [
     "VAULT_ADDR=http://0.0.0.0:8200",
     "VAULT_DEV_ROOT_TOKEN_ID=vault-plaintext-root-token",
@@ -210,6 +211,10 @@ resource "docker_container" "vault-server" {
   volumes {
     host_path = "${var.pwd}/vault/vault.json"
     container_path = "/consul/config/vault.json"
+  }
+  volumes {
+    host_path = "${var.pwd}/vault/config/"
+    container_path = "/vault/config/"
   }
   volumes {
     host_path = "${var.pwd}/consul/certs/"
